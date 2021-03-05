@@ -5,10 +5,10 @@ import App from './App';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import themeDark from './theme/themeDark';
+import DefaultTheme from 'theme/DefaultTheme';
 
 ReactDOM.render(
-  <MuiThemeProvider theme={themeDark}>
+  <MuiThemeProvider theme={DefaultTheme}>
     <CssBaseline />
     <App />
   </MuiThemeProvider>,
