@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -78,20 +78,26 @@ const Home: React.FC = (): ReactElement => {
       const res: unknown = await Promise.all(locationRes);
       setLocations(res);
     } catch (e) {
+      setLocations(null)
+      setSelectedLoc(null)
       console.error(e);
     }
   };
 
   const generate = () => {
-    return locations.map((value: any, index: number) => {
-      return (
-        <div>
-          <Link onClick={() => setSelectedLoc(value)}>
-            {value.address.locality}
-          </Link>
-        </div>
-      );
-    });
+    if (!locations) {
+      return <h1>No Result</h1>;
+    } else {
+      return locations.map((value: any, index: number) => {
+        return (
+          <div>
+            <Link onClick={() => setSelectedLoc(value)}>
+              {value.address.locality}
+            </Link>
+          </div>
+        );
+      });
+    }
   };
 
   const renderImage = () => {
@@ -101,6 +107,7 @@ const Home: React.FC = (): ReactElement => {
   const renderForecast = () => {
     return <h1>{selectedLoc.forecast}</h1>;
   };
+
 
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -136,7 +143,7 @@ const Home: React.FC = (): ReactElement => {
               elevation={3}
               className={classes.paper}
               style={{ maxHeight: 300, overflow: 'auto' }}>
-              {locations && generate()}
+              {generate()}
             </Paper>
           </Grid>
           <Grid item xs={12} md={4}>
